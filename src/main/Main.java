@@ -19,9 +19,10 @@ public class Main {
       String[] tokens;
       List<LifePoint> points = new ArrayList<LifePoint>();
       
-      System.out.print("Input initial points in (x, y) format followed by enter.  enter '-' to start game:");
+      System.out.print("Input initial points in (x, y) format followed by enter.\n" +
+      "enter '*' to iterate 10 generations and quit. enter '-' to start interactive game");
       
-      while ((str = input.readLine()) != null && !str.startsWith("-"))
+      while ((str = input.readLine()) != null && !str.startsWith("-") && !str.startsWith("*"))
       {
         if(str.startsWith("(") && str.endsWith(")"))
         {
@@ -31,19 +32,40 @@ public class Main {
       }
       
       Game lifeGame = new Game(points);
+      System.out.println("Starting State");
       printLifeOutput(System.out, points);
-      while((str = input.readLine()) != null && !str.startsWith("q"))
-      {
-        lifeGame.tick();
-        System.out.println("Generation: " + lifeGame.getGenerationNumber());
-        printLifeOutput(System.out, lifeGame.getLiveCells());
-      }
 
+      if(str.startsWith("*"))
+      {
+        advanceAndPrint(lifeGame, 10);
+      }
+      else
+      {
+        System.out.print("press enter to advance one generation, input a number to advance that many generations, q to quit");
+      
+        while((str = input.readLine()) != null && !str.startsWith("q"))
+        {
+          int numGenerations = 1;
+          try {
+            numGenerations = Integer.parseInt(str);
+          } catch (Exception e) {
+            // nothing to do
+          }
+          
+          advanceAndPrint(lifeGame, numGenerations);
+        }
+      }
     } catch (IOException io) {
       io.printStackTrace();
     }
   }
 
+  private static void advanceAndPrint(Game lifeGame, int numGenerations)
+  {
+    lifeGame.advanceGeneration(numGenerations);
+    System.out.println("Generation: " + lifeGame.getGenerationNumber());
+    printLifeOutput(System.out, lifeGame.getLiveCells());
+  }
   private static void printLifeOutput(PrintStream printer, List<LifePoint> points)
   {
     printer.println("Life 1.06");

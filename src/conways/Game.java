@@ -11,17 +11,28 @@ public class Game
 {
   
   /**
-   * TODO: normalize input vector.
-   * @param initialState should not contain any duplicate points or initial generation will be wrong
+   * @param initialState List of active cells in the world
    */
   public Game(List<LifePoint> initialState)
   {
-    currGeneration.addAll(initialState);
-
+    // duplicates in the initial input could mess up our first generation calculation
+    currGeneration = removeDuplicates(initialState);
     // init point map
-    updateActiveCells(initialState);
+    updateActiveCells(currGeneration);
   }
 
+  /**
+   * Advance the game the specified number of generations
+   * @param numGenerations number of generations to iterate
+   */
+  public void advanceGeneration(int numGenerations)
+  {
+    if(numGenerations < 0) throw new IllegalArgumentException();
+    for(int i = 0; i < numGenerations; ++i)
+    {
+      tick();
+    }
+  }
 
   /**
    * update the game one generation
@@ -30,6 +41,7 @@ public class Game
   {
     Iterator<Entry<LifePoint, LifeData>> activeCells = currPoints.entrySet().iterator();
     currGeneration.clear();
+
     while (activeCells.hasNext())
     {
       Entry<LifePoint, LifeData> point = activeCells.next();
@@ -46,7 +58,7 @@ public class Game
     }
     
     updateActiveCells(currGeneration);
-    ++generation;
+    ++generationNum;
   }
 
   public List<LifePoint> getLiveCells()
@@ -85,8 +97,25 @@ public class Game
     return data;
   }
 
+  private List<LifePoint> removeDuplicates(List<LifePoint> points)
+  {
+    List<LifePoint> normalizedPoints = new ArrayList<LifePoint>(points.size());
+    Map<LifePoint, LifePoint> pointLookup = new HashMap<LifePoint, LifePoint>();
+    
+    for(LifePoint point: points)
+    {
+      if(!pointLookup.containsKey(point))
+      {
+        pointLookup.put(point, point);
+        normalizedPoints.add(point);
+      }
+    }
+    
+    return normalizedPoints;
+  }
+
   private List<LifePoint> currGeneration = new ArrayList<LifePoint>();
   private Map<LifePoint, LifeData> currPoints = new HashMap<LifePoint, LifeData>();
-  private int generation = 0;
-  public int getGenerationNumber() { return generation; }
+  private int generationNum = 0;
+  public int getGenerationNumber() { return generationNum; }
 }
