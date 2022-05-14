@@ -1,6 +1,4 @@
 # big-space-life
-Tech interview project for Valorant
-
 Implement Conway's Game of Life in 64-bit integer-space using the language of your choice.
 
 Imagine a 2D grid - each cell (coordinate) can be either "alive" or "dead". Every generation of the simulation, the system ticks forward. Each cell's value changes according to the following:
@@ -20,6 +18,11 @@ Sample input:
 
 Your program should read the state of the simulation from standard input, run 10 iterations of the Game of Life, and print the result to standard output in Life 1.06 format. 
 
-We're most interested in seeing how you break down the problem and deal with very large integers. Otherwise, feel free to add whatever you like for extra credit. For example, you might add a GUI or animation (Here's a sample for inspiration!).
+--------------------------------------
 
-We intentionally leave the specification for the solution vague to see how you make decisions about these kinds of things and how those decisions are reflected in your code.  The most important advice I can give is to make sure your solution represents your best work and to come prepared to discuss what decisions you've made, alternatives you may have rejected (and why), and where you might take the work going forward.
+This solution was written in Java version "1.8.0_66" with Eclipse Mars 4.5.1
+main() is in src/main/Main.java
+
+Input initial live cell list in (x, y) format followed by enter.
+End input with '*' to iterate 10 generations, print end state and quit.
+End input with '-' to enter interactive mode where you can continually advance by a variable number of generations.  enter 'q' to quit the program in this mode.
