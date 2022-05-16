@@ -26,3 +26,4 @@ main() is in src/main/Main.java
 Input initial live cell list in (x, y) format followed by enter.
 End input with '*' to iterate 10 generations, print end state and quit.
 End input with '-' to enter interactive mode where you can continually advance by a variable number of generations.  enter 'q' to quit the program in this mode.
+Output is not guaranteed to be sorted in any way
